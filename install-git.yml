@@ -1,0 +1,23 @@
+---
+- name: Install Git on Debian
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update apt package list
+      apt:
+        update_cache: yes
+
+    - name: Install Git
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+
+    - name: Verify Git installation
+      command: git --version
+      register: git_version
+      changed_when: false
+
+    - name: Display installed Git version
+      debug:
+        msg: "Installed Git version: {{ git_version.stdout }}"
